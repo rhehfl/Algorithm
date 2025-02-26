@@ -7,6 +7,6 @@ const input = require('fs')
 const [caseCount, ...numbers] = input;
 
 for (let i = 0; i < caseCount; i++) {
-  const [a, b] = numbers[i].split(' ');
-  console.log(Number(a) + Number(b));
+  const [a, b] = numbers[i].split(' ').map(Number);
+  console.log(a + b);
 }
