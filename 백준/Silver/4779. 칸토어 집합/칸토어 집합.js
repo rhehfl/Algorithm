@@ -1,24 +1,20 @@
 const input = require('fs')
-  .readFileSync(process.platform === 'linux' ? '/dev/stdin' : '예제.txt')
+  .readFileSync('/dev/stdin')
   .toString()
   .trim()
   .split('\n');
 
 function kan(str) {
-  if (str.length <= 1) return str;
+  if (str.length === 1) return str;
+  const num = str.length / 3;
+  const dashStr = str.slice(0, num);
+  const spaceStr = ' '.repeat(num);
 
-  const partLen = Math.floor(str.length / 3);
-  const left = str.slice(0, partLen);
-  const center = ' '.repeat(partLen);
-  const right = str.slice(partLen * 2);
-
-  return kan(left) + center + kan(right);
+  return kan(dashStr) + spaceStr + kan(dashStr);
 }
 
 for (let i = 0; i < input.length; i++) {
-  const n = Number(input[i]);
-  if (isNaN(n)) continue;
-
-  const line = '-'.repeat(3 ** n);
-  console.log(kan(line));
+  const n = Number(input[i].trim());
+  const str = '-'.repeat(3 ** n);
+  console.log(kan(str));
 }
