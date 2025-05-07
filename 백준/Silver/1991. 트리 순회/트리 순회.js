@@ -11,56 +11,69 @@ class Node {
     this.right = null;
   }
 }
-
 class Tree {
   constructor() {
-    this.nodes = new Map(); // 기존 Tree 클래스에 노드 저장소 추가
+    this.nodes = new Map();
+    this.root = null;
   }
 
-  insert(value, left = null, right = null) {
-    //A null null
-    // B null null
-    const node = this.getOrCreate(value);
-    //left : B null null
-    node.left = this.getOrCreate(left);
-    node.right = this.getOrCreate(right);
-    return node;
-  }
-
-  getOrCreate(value) {
-    //A
-    if (value === '.' || value == null) return null;
-    if (!this.nodes.has(value)) {
-      //A null null 추가
-      this.nodes.set(value, new Node(value));
+  insert(parentValue, leftValue, rightValue) {
+    // 부모 노드 가져오기 또는 생성
+    if (!this.nodes.has(parentValue)) {
+      this.nodes.set(parentValue, new Node(parentValue));
     }
-    return this.nodes.get(value);
-  }
+    const parentNode = this.nodes.get(parentValue);
 
-  getRoot() {
-    return this.nodes.get('A'); // 루트는 항상 'A'라고 가정
-  }
-  inorder(node) {
-    if (!node) return '';
-    return this.inorder(node.left) + node.value + this.inorder(node.right);
-  }
-  preorder(node) {
-    if (!node) return '';
-    return node.value + this.preorder(node.left) + this.preorder(node.right);
-  }
+    // 루트 노드는 첫 삽입 노드로 설정
+    if (!this.root) {
+      this.root = parentNode;
+    }
 
-  postOrder(node) {
-    if (!node) return '';
-    return this.postOrder(node.left) + this.postOrder(node.right) + node.value;
+    // 왼쪽 자식 처리
+    if (leftValue !== '.') {
+      if (!this.nodes.has(leftValue)) {
+        this.nodes.set(leftValue, new Node(leftValue));
+      }
+      parentNode.left = this.nodes.get(leftValue);
+    }
+
+    // 오른쪽 자식 처리
+    if (rightValue !== '.') {
+      if (!this.nodes.has(rightValue)) {
+        this.nodes.set(rightValue, new Node(rightValue));
+      }
+      parentNode.right = this.nodes.get(rightValue);
+    }
+  }
+  preorder(node = this.root, result = []) {
+    if (!node) return;
+    result.push(node.value);
+    this.preorder(node.left, result);
+    this.preorder(node.right, result);
+    return result;
+  }
+  inorder(node = this.root, result = []) {
+    if (!node) return;
+    this.inorder(node.left, result);
+    result.push(node.value);
+    this.inorder(node.right, result);
+    return result;
+  }
+  postorder(node = this.root, result = []) {
+    if (!node) return;
+    this.postorder(node.left, result);
+    this.postorder(node.right, result);
+    result.push(node.value);
+
+    return result;
   }
 }
-const t = new Tree();
-const N = parseInt(input[0]);
 
-for (let i = 1; i <= N; i++) {
-  const [p, l, r] = input[i].trim().split(' ');
-  t.insert(p, l, r);
+const tree = new Tree();
+for (let i = 1; i <= input[0]; i++) {
+  const [A, B, C] = input[i].trim().split(' ');
+  tree.insert(A, B, C);
 }
-console.log(t.preorder(t.getRoot()));
-console.log(t.inorder(t.getRoot()));
-console.log(t.postOrder(t.getRoot()));
+console.log(tree.preorder().join(''));
+console.log(tree.inorder().join(''));
+console.log(tree.postorder().join(''));
