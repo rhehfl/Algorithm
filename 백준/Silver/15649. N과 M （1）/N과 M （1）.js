@@ -6,12 +6,12 @@ const [N, M] = require('fs')
   .map(Number);
 
 const visited = Array.from({ length: N + 1 }, () => false);
-
+let result = '';
 const output = [];
 
 function dfs(depth) {
   if (depth === M) {
-    console.log(output.join(' '));
+    result += `${output.join(' ')}\n`;
     return;
   }
   for (let i = 1; i <= N; i++) {
@@ -25,3 +25,4 @@ function dfs(depth) {
   }
 }
 dfs(0);
+console.log(result);
