@@ -24,4 +24,3 @@ function padoban(n) {
   }
   return P[n];
 }
-console.log();
