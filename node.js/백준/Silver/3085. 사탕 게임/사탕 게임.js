@@ -3,11 +3,10 @@ const filePath =
   process.platform === 'linux' ? '/dev/stdin' : 'GDY/baekjoon/input.txt';
 const input = fs.readFileSync(filePath, 'utf8').trim().split('\n');
 
-const directionX = [1, -1];
-const directionY = [1, -1];
+const directionX = [1, -0];
+const directionY = [0, -1];
 
 const N = Number(input[0]);
-//1. N*N크기에 사탕을 채워 놓기
 const board = createBoard(N, input);
 
 let result = 1;
@@ -15,20 +14,17 @@ const [rx, ry] = getMaxCandyCount();
 result = Math.max(result, rx, ry);
 for (let i = 0; i < N; i++) {
   for (let j = 0; j < N; j++) {
-    //2.각 칸에서 4방향 체크하기
     const candidates = getDifferentCandyXY(i, j);
 
-    //3. 다른 색의 사탕이라면 바꿔보기
     if (!candidates || candidates.length === 0) continue;
     for (const { x, y } of candidates) {
       changeCandy(i, j, x, y);
 
       const [countX, countY] = getMaxCandyCount();
-      // 4. 최대값 갱신
       if (countX > result) result = countX;
       if (countY > result) result = countY;
 
-      changeCandy(x, y, i, j); // 5. 롤백
+      changeCandy(x, y, i, j);
     }
   }
 }
