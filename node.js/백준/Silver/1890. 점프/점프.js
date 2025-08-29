@@ -7,14 +7,12 @@ const board = input.slice(1).map((l) => l.split(' ').map(Number));
 
 const dp = Array.from({ length: N }, () => Array(N).fill(0n));
 dp[0][0] = 1n;
-
 for (let i = 0; i < N; i++) {
   for (let j = 0; j < N; j++) {
     if (dp[i][j] === 0n) continue;
     if (i === N - 1 && j === N - 1) continue;
 
     const k = board[i][j];
-    if (k === 0) continue; // ✅ 0 점프면 전이 금지(자기 자신으로 가는 버그 방지)
 
     const down = i + k;
     const right = j + k;
