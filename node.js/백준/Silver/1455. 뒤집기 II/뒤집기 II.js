@@ -15,13 +15,17 @@ for (let i = N - 1; i >= 0; i--) {
     if (coinBoard[i][j] === 1) {
       coinBoard[i][j] = 0;
       count++;
-
-      for (let r = 0; r <= i; r++) {
-        for (let c = 0; c <= j; c++) {
-          coinBoard[r][c] = coinBoard[r][c] === 1 ? 0 : 1;
-        }
-      }
+      turnCoin(i, j);
     }
   }
 }
+
+function turnCoin(i, j) {
+  for (let r = 0; r <= i; r++) {
+    for (let c = 0; c <= j; c++) {
+      coinBoard[r][c] = coinBoard[r][c] === 1 ? 0 : 1;
+    }
+  }
+}
+
 console.log(count);
