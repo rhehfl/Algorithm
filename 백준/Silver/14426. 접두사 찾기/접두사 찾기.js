@@ -37,7 +37,7 @@ class Trie {
     return true;
   }
 }
-const prefixes = [];
+
 const trie = new Trie();
 let prefixCount = 0;
 
